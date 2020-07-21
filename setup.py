@@ -13,7 +13,12 @@ setup(
     author="Daniel Đukić",
     author_email="daniel@dukic.dev",
     license="MIT",
-    install_requires=["django>=3.0", "psycopg2-binary>=2.8.5", "django-enumfields>=2.0.0"],
+    install_requires=[
+        "django>=3.0",
+        "psycopg2-binary>=2.8.5",
+        "django-enumfields>=2.0.0",
+        "djangorestframework>=3.11.0",
+    ],
     python_requires=">=3.8",
     classifiers=[
         "Environment :: Web Environment",

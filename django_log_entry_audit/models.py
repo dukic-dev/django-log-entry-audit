@@ -23,10 +23,7 @@ class LogEntry(models.Model):
     fields = JSONField()
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="log_entries"
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="log_entries",
     )
     status = EnumField(StatusEnum, max_length=1)
 
