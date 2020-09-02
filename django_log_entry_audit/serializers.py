@@ -6,15 +6,8 @@ from django_log_entry_audit.models import LogEntry
 from django_log_entry_audit.settings import USER_SERIALIZER
 
 
-def import_class(path):
-    components = path.split(".")
-    mod = __import__(components[0])
-    for comp in components[1:]:
-        mod = getattr(mod, comp)
-    return mod
-
-
-UserSerializer = import_class(USER_SERIALIZER)
+module = import_module(".".join(USER_SERIALIZER.split(".")[:-1]))
+UserSerializer = getattr(module, USER_SERIALIZER.split(".")[-1])
 
 
 class LogEntrySerializer(serializers.ModelSerializer):
