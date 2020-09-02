@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from enumfields import EnumField
 from enum import Enum
 
+from django_log_entry_audit.encoders import JSONEncoder
+
 
 class StatusEnum(Enum):
     SAVED = "S"
@@ -20,7 +22,7 @@ class LogEntry(models.Model):
     app_label = models.CharField(max_length=255)
     model_name = models.CharField(max_length=255)
 
-    fields = JSONField()
+    fields = JSONField(encoder=JSONEncoder)
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="log_entries",
