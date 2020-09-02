@@ -10,4 +10,5 @@ class HistoryViewSetMixin:
     def history(self, request, pk=None):
         instance = self.get_object()
         serializer = LogEntrySerializer(LogEntry.get_log_entries_for_object(instance), many=True)
-        return Response(serializer.data)
+        data = [{**i["fields"], "user": i["user"], "status": i["status"]} for i in serializer.data]
+        return Response(data)

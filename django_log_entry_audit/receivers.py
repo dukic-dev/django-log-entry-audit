@@ -5,6 +5,7 @@ from django.core import serializers
 from django.dispatch import receiver
 
 from django_log_entry_audit.models import LogEntry, StatusEnum
+from django_log_entry_audit.settings import AUDIT_SIGNALS
 
 
 def _get_object_serialized_fields(obj):
@@ -13,7 +14,7 @@ def _get_object_serialized_fields(obj):
 
 try:
 
-    @receiver(settings.AUDIT_SIGNALS["create"])
+    @receiver(AUDIT_SIGNALS["create"])
     def create_log_entry(sender, **kwargs):
         obj = kwargs["obj"]
         user = kwargs["user"]
@@ -34,7 +35,7 @@ except KeyError:
 
 try:
 
-    @receiver(settings.AUDIT_SIGNALS["update"])
+    @receiver(AUDIT_SIGNALS["update"])
     def update_log_entries(sender, **kwargs):
         objs = kwargs["objs"]
         user = kwargs["user"]
@@ -61,7 +62,7 @@ except KeyError:
 
 try:
 
-    @receiver(settings.AUDIT_SIGNALS["delete"])
+    @receiver(AUDIT_SIGNALS["delete"])
     def delete_log_entry(sender, **kwargs):
         obj = kwargs["obj"]
         user = kwargs["user"]
@@ -82,7 +83,7 @@ except KeyError:
 
 try:
 
-    @receiver(settings.AUDIT_SIGNALS["bulk_create"])
+    @receiver(AUDIT_SIGNALS["bulk_create"])
     def create_log_entries(sender, **kwargs):
         objs = kwargs["objs"]
         user = kwargs["user"]
@@ -109,7 +110,7 @@ except KeyError:
 
 try:
 
-    @receiver(settings.AUDIT_SIGNALS["bulk_delete"])
+    @receiver(AUDIT_SIGNALS["bulk_delete"])
     def delete_log_entries(sender, **kwargs):
         objs = kwargs["objs"]
         user = kwargs["user"]
