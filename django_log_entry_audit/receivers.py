@@ -4,12 +4,13 @@ from django.conf import settings
 from django.core import serializers
 from django.dispatch import receiver
 
+from django_log_entry_audit.encoders import JSONEncoder
 from django_log_entry_audit.models import LogEntry, StatusEnum
 from django_log_entry_audit.settings import AUDIT_SIGNALS
 
 
 def _get_object_serialized_fields(obj):
-    return loads(serializers.serialize("json", [obj]))[0]["fields"]
+    return loads(serializers.serialize("json", [obj], cls=JSONEncoder))[0]["fields"]
 
 
 try:
