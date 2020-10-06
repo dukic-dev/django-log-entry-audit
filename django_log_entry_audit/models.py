@@ -33,7 +33,7 @@ class LogEntry(models.Model):
     def get_log_entries_for_object(cls, obj):
         return LogEntry.objects.filter(
             object_id=obj.id, app_label=obj._meta.app_label, model_name=obj._meta.model_name
-        ).order_by("created")
+        ).order_by("created").select_related("user")
 
     def __str__(self):
         return f"Log Entry for {self.app_label}.{self.model_name} - pk: {self.object_id}"
