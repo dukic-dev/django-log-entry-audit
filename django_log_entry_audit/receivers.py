@@ -1,16 +1,16 @@
-from json import loads
+import json
 
 from django.conf import settings
 from django.core import serializers
 from django.dispatch import receiver
 
-from django_log_entry_audit.encoders import JSONEncoder
+from django_log_entry_audit.encoders import ModelEncoder
 from django_log_entry_audit.models import LogEntry, StatusEnum
 from django_log_entry_audit.settings import AUDIT_SIGNALS
 
 
 def _get_object_serialized_fields(obj):
-    return loads(serializers.serialize("json", [obj], cls=JSONEncoder))[0]["fields"]
+    return json.loads(ModelEncoder().encode(obj))
 
 
 try:
