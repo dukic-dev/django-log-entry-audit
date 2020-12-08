@@ -26,7 +26,7 @@ try:
             model_name=obj._meta.model_name,
             fields=_get_object_serialized_fields(obj),
             user=user,
-            status=StatusEnum.SAVED,
+            status=StatusEnum.CREATED,
         )
 
 
@@ -41,20 +41,31 @@ try:
         objs = kwargs["objs"]
         user = kwargs["user"]
 
-        log_entries = []
-        for obj in objs:
-            log_entries.append(
-                LogEntry(
-                    object_id=obj.pk,
-                    app_label=obj._meta.app_label,
-                    model_name=obj._meta.model_name,
-                    fields=_get_object_serialized_fields(obj),
-                    user=user,
-                    status=StatusEnum.SAVED,
-                )
+        if len(objs) == 1:
+            obj = objs[0]
+            LogEntry.objects.create(
+                object_id=obj.pk,
+                app_label=obj._meta.app_label,
+                model_name=obj._meta.model_name,
+                fields=_get_object_serialized_fields(obj),
+                user=user,
+                status=StatusEnum.UPDATED,
             )
+        else:
+            log_entries = []
+            for obj in objs:
+                log_entries.append(
+                    LogEntry(
+                        object_id=obj.pk,
+                        app_label=obj._meta.app_label,
+                        model_name=obj._meta.model_name,
+                        fields=_get_object_serialized_fields(obj),
+                        user=user,
+                        status=StatusEnum.UPDATED,
+                    )
+                )
 
-        LogEntry.objects.bulk_create(log_entries)
+            LogEntry.objects.bulk_create(log_entries)
 
 
 except KeyError:
@@ -98,7 +109,7 @@ try:
                     model_name=obj._meta.model_name,
                     fields=_get_object_serialized_fields(obj),
                     user=user,
-                    status=StatusEnum.SAVED,
+                    status=StatusEnum.CREATED,
                 )
             )
 

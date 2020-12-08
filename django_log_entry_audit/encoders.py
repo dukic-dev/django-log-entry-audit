@@ -34,10 +34,7 @@ class ModelEncoder(json.JSONEncoder):
         for f in o._meta.fields:
             val = getattr(o, f.name)
             if isinstance(f, models.ForeignKey) or isinstance(f, models.OneToOneField):
-                fields[f.name] = {
-                    "id": val.id if val else "",
-                    "name": str(val) if val else ""
-                }
+                fields[f.name] = {"id": val.id if val else "", "name": str(val) if val else ""}
             elif isinstance(f, models.FileField):
                 fields[f.name] = val.name
             else:
@@ -60,9 +57,6 @@ class ModelEncoder(json.JSONEncoder):
             fields[f.name] = []
             qs = getattr(o, f.name).all()
             for obj in qs:
-                fields[f.name].append({
-                    "id": obj.id,
-                    "name": str(obj)
-                })
+                fields[f.name].append({"id": obj.id, "name": str(obj)})
 
         return fields
